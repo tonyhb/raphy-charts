@@ -37,6 +37,8 @@ LineChartOptions = (function() {
     x_label_size: 14,
     y_label_size: 14,
     label_format: "%m/%d",
+    tooltip_suffix: '',
+    y_label_suffix: '',
     show_grid: false,
     x_padding: 45,
     y_padding: 40,
@@ -1154,7 +1156,7 @@ Line = (function() {
   };
 
   Line.prototype.draw_dots_and_tooltips = function() {
-    var dot, dots, i, max_point, min_point, options, point, raw_point, raw_points, scaled_points, tooltip, tooltips, _i, _len;
+    var dot, dots, i, max_point, min_point, options, point, raw_point, raw_points, scaled_points, text, tooltip, tooltips, _i, _len;
     scaled_points = this.scaled_points;
     raw_points = this.raw_points;
     tooltips = [];
@@ -1173,7 +1175,9 @@ Line = (function() {
       options = Util.clone(this.options);
       options.hover_enabled = !raw_point.options.show_dot;
       dot = new Dot(this.r, point, options);
-      tooltip = new Tooltip(this.r, dot.element, raw_point.options.tooltip || raw_point.y, options.hover_enabled);
+      text = raw_point.options.tooltip || raw_point.y;
+      text += options.tooltip_suffix;
+      tooltip = new Tooltip(this.r, dot.element, text, options.hover_enabled);
       dots.push(dot);
       tooltips.push(tooltip);
       if (raw_point.options.no_dot === true) {
@@ -1783,7 +1787,7 @@ LineChart = (function(_super) {
     }).size(size);
     for (_i = 0, _len = labels.length; _i < _len; _i++) {
       label = labels[_i];
-      axis.draw(label.y);
+      axis.draw(label.y + this.options.y_label_suffix);
       label_coordinates.push(y(label.y));
     }
     return label_coordinates;
@@ -1910,7 +1914,7 @@ LineChart = (function(_super) {
     for (i = _i = 0, _len = _ref1.length; _i < _len; i = ++_i) {
       line_indices = _ref1[i];
       begin = line_indices[0], end = line_indices[1];
-      raw_points = this.all_points.slice(begin, end + 1 || 9e9);
+      raw_points = this.all_points.slice(begin, +end + 1 || 9e9);
       if (this.options.multi_axis) {
         _ref2 = this.all_points.length > 2 ? this.create_scalers(raw_points) : this.create_scalers_for_single_point(), line_x = _ref2[0], line_y = _ref2[1];
       } else {

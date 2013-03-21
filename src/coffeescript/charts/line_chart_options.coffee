@@ -38,6 +38,8 @@ class LineChartOptions
     x_label_size: 14
     y_label_size: 14
     label_format: "%m/%d"
+    tooltip_suffix: ''
+    y_label_suffix: ''
 
     show_grid: false
 

@@ -74,7 +74,9 @@ class Line
       options.hover_enabled = !raw_point.options.show_dot
 
       dot = new Dot(@r, point, options)
-      tooltip = new Tooltip(@r, dot.element, raw_point.options.tooltip || raw_point.y, options.hover_enabled)
+      text = raw_point.options.tooltip || raw_point.y
+      text += options.tooltip_suffix
+      tooltip = new Tooltip(@r, dot.element, text, options.hover_enabled)
       dots.push dot
       tooltips.push tooltip
 

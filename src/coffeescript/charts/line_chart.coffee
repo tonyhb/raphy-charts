@@ -148,7 +148,7 @@ class LineChart extends BaseChart
     .size(size)
 
     for label in labels
-      axis.draw(label.y)
+      axis.draw(label.y + @options.y_label_suffix)
       label_coordinates.push y(label.y)
 
     label_coordinates
